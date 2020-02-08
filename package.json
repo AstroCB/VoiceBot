@@ -1,0 +1,14 @@
+{
+  "name": "voicebot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "Cameron Bernhardt",
+  "license": "MIT",
+  "dependencies": {
+    "messenger-botcore": "github:AstroCB/BotCore"
+  }
+}
