@@ -17,6 +17,7 @@
     "file-type": "^14.1.1",
     "messenger-botcore": "github:AstroCB/BotCore",
     "pug": "^2.0.4",
-    "request": "^2.88.0"
+    "request": "^2.88.0",
+    "tinyurl": "^1.1.5"
   }
 }
