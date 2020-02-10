@@ -4,11 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "pm2 start index.js --name 'VoiceBot'",
+    "restart": "pm2 restart -a VoiceBot",
+    "logs": "pm2 logs -a VoiceBot",
+    "stop": "pm2 stop -a VoiceBot"
   },
   "author": "Cameron Bernhardt",
   "license": "MIT",
   "dependencies": {
-    "messenger-botcore": "github:AstroCB/BotCore"
+    "express": "^4.17.1",
+    "messenger-botcore": "github:AstroCB/BotCore",
+    "request": "^2.88.0"
   }
 }
