@@ -6,7 +6,6 @@ const server = require("./server");
 
 let gapi;
 
-// Bot stuff
 botcore.login.login({
     MEMCACHIER_USERNAME: process.env.MEMCACHIER_USERNAME,
     MEMCACHIER_PASSWORD: process.env.MEMCACHIER_PASSWORD,
@@ -21,6 +20,7 @@ botcore.login.login({
     }
 });
 
+// Listen for audio messages and download them
 function listener(err, msg) {
     if (!err && msg.threadID && msg.threadID == config.THREAD_ID
         && msg.attachments && msg.attachments) {
