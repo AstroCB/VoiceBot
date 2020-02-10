@@ -7,13 +7,16 @@
     "start": "pm2 start index.js --name 'VoiceBot'",
     "restart": "pm2 restart -a VoiceBot",
     "logs": "pm2 logs -a VoiceBot",
-    "stop": "pm2 stop -a VoiceBot"
+    "stop": "pm2 stop -a VoiceBot",
+    "debug": "node index.js"
   },
   "author": "Cameron Bernhardt",
   "license": "MIT",
   "dependencies": {
     "express": "^4.17.1",
+    "file-type": "^14.1.1",
     "messenger-botcore": "github:AstroCB/BotCore",
+    "pug": "^2.0.4",
     "request": "^2.88.0"
   }
 }
