@@ -1,10 +1,12 @@
 html
   head
     title= `Voiceover by ${author}`
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
   body
-    audio(controls autoplay)
-      source(src= path)
-    br
-    br
-    form(action= path)
-      input(type="submit" value="Download")
+    center
+      audio(controls autoplay)
+        source(src= path)
+      br
+      br
+      form(action= path)
+        input(type="submit" value="Download")
