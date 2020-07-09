@@ -24,7 +24,7 @@ botcore.login.login({
 
 // Listen for audio messages and download them
 function listener(err, msg) {
-    if (!err && msg.threadID && msg.threadID == config.THREAD_ID
+    if (!err && msg.threadID && config.THREAD_IDS.includes(msg.threadID)
         && msg.attachments && msg.attachments) {
         // Also pull user information for attribution
         const audios = msg.attachments.filter(m => m.type == "audio");
@@ -35,7 +35,7 @@ function listener(err, msg) {
                     const userName = info[msg.senderID].firstName;
 
                     audios.forEach(audio => {
-                        downloadFile(userName, audio.url, audio.filename);
+                        downloadFile(userName, msg.threadID, audio.url, audio.filename);
                     });
                 } else {
                     api.sendMessage("Sorry, couldn't retrieve author info for download.", msg.threadID);
@@ -45,7 +45,7 @@ function listener(err, msg) {
     }
 }
 
-function downloadFile(author, url, filename) {
+function downloadFile(author, threadId, url, filename) {
     const userDir = `${__dirname}/audios/${author}`;
 
     // Create directory for a user's recordings if it doesn't yet exist
@@ -77,7 +77,7 @@ function downloadFile(author, url, filename) {
             api.sendMessage({
                 body: err ? url : res,
                 url: url
-            }, config.THREAD_ID);
+            }, threadId);
         });
     });
 }
