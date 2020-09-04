@@ -15,7 +15,7 @@
   "dependencies": {
     "express": "^4.17.1",
     "file-type": "^14.1.1",
-    "messenger-botcore": "^2.0.0",
+    "messenger-botcore": "^2.3.0",
     "pug": "^2.0.4",
     "request": "^2.88.0",
     "tinyurl": "^1.1.5"

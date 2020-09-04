@@ -24,25 +24,30 @@ botcore.login.login({
 
 // Listen for audio messages and download them
 function listener(err, msg) {
-    if (!err && msg.threadID && config.THREAD_IDS.includes(msg.threadID)
-        && msg.attachments && msg.attachments) {
-        // Also pull user information for attribution
-        const audios = msg.attachments.filter(m => m.type == "audio");
+    if (!msg) return;
 
-        if (audios.length > 0) {
-            api.getUserInfo(msg.senderID, (err, info) => {
-                if (!err) {
-                    const userName = info[msg.senderID].firstName;
+    botcore.banned.isMessage(msg, isBanned => {
+        if (!err && msg.threadID && !isBanned
+            && config.THREAD_IDS.includes(msg.threadID)
+            && msg.attachments && msg.attachments) {
+            // Also pull user information for attribution
+            const audios = msg.attachments.filter(m => m.type == "audio");
 
-                    audios.forEach(audio => {
-                        downloadFile(userName, msg.threadID, audio.url, audio.filename);
-                    });
-                } else {
-                    api.sendMessage("Sorry, couldn't retrieve author info for download.", msg.threadID);
-                }
-            });
+            if (audios.length > 0) {
+                api.getUserInfo(msg.senderID, (err, info) => {
+                    if (!err) {
+                        const userName = info[msg.senderID].firstName;
+
+                        audios.forEach(audio => {
+                            downloadFile(userName, msg.threadID, audio.url, audio.filename);
+                        });
+                    } else {
+                        api.sendMessage("Sorry, couldn't retrieve author info for download.", msg.threadID);
+                    }
+                });
+            }
         }
-    }
+    });
 }
 
 function downloadFile(author, threadId, url, filename) {
@@ -56,7 +61,7 @@ function downloadFile(author, threadId, url, filename) {
     const fullPath = `${userDir}/${filename}`;
     request(url).pipe(fs.createWriteStream(fullPath)).on('close', async (err, data) => {
         console.log(`Downloaded ${filename}.`);
-        
+
         // Read file to determine true file type (not extension reported by FB)
         const calcFileType = await FileType.fromFile(fullPath);
         let fixedFileName = filename;
@@ -71,8 +76,8 @@ function downloadFile(author, threadId, url, filename) {
                 fs.renameSync(fullPath, `${userDir}/${fixedFileName}`);
             }
         }
-        
-        const url = `http://${config.SERVER_URL}:${config.PORT}${config.URL_BASE}/${author}/${fixedFileName}`;
+
+        const url = `http://${config.SERVER_URL}${config.URL_BASE}/${author}/${fixedFileName}`;
         TinyURL.shorten(url, (res, err) => { // Why does the TinyURL API have the params in this order?
             api.sendMessage({
                 body: err ? url : res,
