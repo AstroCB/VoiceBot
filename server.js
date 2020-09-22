@@ -5,6 +5,7 @@ const config = require("./config");
 
 app.set("port", config.PORT);
 app.set("view engine", "pug");
+app.use(`${config.URL_BASE}/static`, express.static("static"));
 app.listen(app.get("port"));
 
 // Serve audio files from the folder
@@ -34,7 +35,8 @@ app.get(`${config.URL_BASE}/:author/:clip`, (req, res) => {
         } else {
             res.render("index", {
                 "author": author,
-                "path": path
+                "path": path,
+                "root": config.URL_BASE
             });
         }
     });
